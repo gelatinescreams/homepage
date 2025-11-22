@@ -8,6 +8,10 @@ Shoutout to both these devs & communities, please go donate to them.
 
 ![Homepage Widget Screenshot](assets/screenshot.png)
 
+## Planned Future Updates
+Time duration(s)
+Pinned items filter
+
 ## Configuration Options
 
 | Option | Type | Default | Description |
@@ -37,7 +41,7 @@ Shoutout to both these devs & communities, please go donate to them.
 ### Basic Display Modes
 
 ```yaml
-# DefaultBoth lists and notes with all dropdowns
+# Default (Both lists and notes with all dropdowns)
 - Jotty All:
     widget:
       type: jotty
