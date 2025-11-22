@@ -9,8 +9,8 @@ Shoutout to both these devs & communities, please go donate to them.
 ![Homepage Widget Screenshot](assets/screenshot.png)
 
 ## Planned Future Updates
-Time duration(s)
-Pinned items filter
+- Time duration(s)
+- Pinned items filter
 
 ## Configuration Options
 
