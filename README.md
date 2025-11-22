@@ -6,6 +6,8 @@ Widget for [Homepage](https://gethomepage.dev/) that integrates with [Jotty](htt
 
 Shoutout to both these devs & communities, please go donate to them.
 
+![Homepage Widget Screenshot](assets/screenshot.png)
+
 ## Configuration Options
 
 | Option | Type | Default | Description |
