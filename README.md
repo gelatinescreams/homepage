@@ -37,7 +37,7 @@ Shoutout to both these devs & communities, please go donate to them.
 ### Basic Display Modes
 
 ```yaml
-# Default - Both lists and notes with all dropdowns
+# DefaultBoth lists and notes with all dropdowns
 - Jotty All:
     widget:
       type: jotty
@@ -315,5 +315,5 @@ Shoutout to both these devs & communities, please go donate to them.
 
 ## Credits to the original gangsters again
 
-- [Jotty](https://github.com/fccview/jotty) - The checklist and notes application
-- [Homepage](https://gethomepage.dev/) - The dashboard platform
+- [Jotty](https://github.com/fccview/jotty) The checklist and notes application
+- [Homepage](https://gethomepage.dev/) The dashboard platform
