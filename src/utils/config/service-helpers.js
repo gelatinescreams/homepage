@@ -279,6 +279,9 @@ export function cleanServiceGroups(groups) {
           slugs,
           symbols,
 
+          // crowdsec
+          limit24h,
+
           // customapi
           mappings,
           display,
@@ -421,6 +424,26 @@ export function cleanServiceGroups(groups) {
 
           // grafana
           alerts,
+
+          // jotty
+          show: jottyShow,
+          listTitle: jottyListTitle,
+          noteTitle: jottyNoteTitle,
+          category: jottyCategory,
+          listCategory: jottyListCategory,
+          noteCategory: jottyNoteCategory,
+          listType: jottyListType,
+          hideCompleted: jottyHideCompleted,
+          maxItems: jottyMaxItems,
+          maxLists: jottyMaxLists,
+          sortBy: jottySortBy,
+          sortOrder: jottySortOrder,
+          showSummary: jottyShowSummary,
+          defaultCategory: jottyDefaultCategory,
+          compact: jottyCompact,
+          showTimestamps: jottyShowTimestamps,
+          taskStatus: jottyTaskStatus,        
+
         } = widgetData;
 
         let fieldsList = fields;
@@ -471,6 +494,10 @@ export function cleanServiceGroups(groups) {
           if (symbols) widget.symbols = symbols;
           if (slugs) widget.slugs = slugs;
           if (defaultinterval) widget.defaultinterval = defaultinterval;
+        }
+
+        if (limit24h !== undefined) {
+          widget.limit24h = !!limit24h;
         }
 
         if (type === "docker") {
@@ -578,6 +605,27 @@ export function cleanServiceGroups(groups) {
         if (type === "openmediavault") {
           if (method) widget.method = method;
         }
+
+        if (type === "jotty") {
+          if (jottyShow) widget.show = jottyShow;
+          if (jottyListTitle) widget.listTitle = jottyListTitle;
+          if (jottyNoteTitle) widget.noteTitle = jottyNoteTitle;
+          if (jottyCategory) widget.category = jottyCategory;
+          if (jottyListCategory) widget.listCategory = jottyListCategory;
+          if (jottyNoteCategory) widget.noteCategory = jottyNoteCategory;
+          if (jottyListType) widget.listType = jottyListType;
+          if (jottyHideCompleted !== undefined) widget.hideCompleted = !!JSON.parse(jottyHideCompleted);
+          if (jottyMaxItems !== undefined) widget.maxItems = parseInt(jottyMaxItems, 10);
+          if (jottyMaxLists !== undefined) widget.maxLists = parseInt(jottyMaxLists, 10);
+          if (jottySortBy) widget.sortBy = jottySortBy;
+          if (jottySortOrder) widget.sortOrder = jottySortOrder;
+          if (jottyShowSummary !== undefined) widget.showSummary = !!JSON.parse(jottyShowSummary);
+          if (jottyDefaultCategory) widget.defaultCategory = jottyDefaultCategory;
+          if (jottyCompact !== undefined) widget.compact = !!JSON.parse(jottyCompact);
+          if (jottyShowTimestamps !== undefined) widget.showTimestamps = !!JSON.parse(jottyShowTimestamps);
+          if (jottyTaskStatus) widget.taskStatus = jottyTaskStatus;
+        }     
+
         if (type === "openwrt") {
           if (interfaceName) widget.interfaceName = interfaceName;
         }

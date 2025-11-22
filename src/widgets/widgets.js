@@ -53,6 +53,7 @@ import jackett from "./jackett/widget";
 import jdownloader from "./jdownloader/widget";
 import jellyseerr from "./jellyseerr/widget";
 import jellystat from "./jellystat/widget";
+import jotty from "./jotty/widget";
 import karakeep from "./karakeep/widget";
 import kavita from "./kavita/widget";
 import komga from "./komga/widget";
@@ -203,6 +204,7 @@ const widgets = {
   jellyfin: emby,
   jellyseerr,
   jellystat,
+  jotty,
   kavita,
   komga,
   komodo,
