@@ -1,183 +1,317 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/banner_light@2x.png">
-    <img src="images/banner_dark@2x.png" width="65%">
-  </picture>
-</p>
+# Jotty Widget for Homepage
 
-<p align="center">
-  A modern, <em>fully static, fast</em>, secure <em>fully proxied</em>, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.
-</p>
+Widget for [Homepage](https://gethomepage.dev/) that integrates with [Jotty](https://github.com/fccview/jotty)
 
-<p align="center">
-  <img src="images/1.png?v=2" />
-</p>
+## Start with respect
 
-<p align="center">
-  <a href="https://github.com/gethomepage/homepage/actions/workflows/docker-publish.yml"><img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/gethomepage/homepage/docker-publish.yml"></a>
-  &nbsp;
-  <a href="https://crowdin.com/project/gethomepage" target="_blank"><img src="https://badges.crowdin.net/gethomepage/localized.svg"></a>
-  &nbsp;
-  <a href="https://discord.gg/k4ruYNrudu"><img alt="Discord" src="https://img.shields.io/discord/1019316731635834932"></a>
-  &nbsp;
-  <a href="https://gethomepage.dev/" title="Docs"><img title="Docs" src="https://github.com/gethomepage/homepage/actions/workflows/docs-publish.yml/badge.svg"/></a>
-  &nbsp;
-  <a href="https://paypal.me/phelpsben" title="Donate"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/benphelps"></a>
-</p>
+Shoutout to both these devs & communities, please go donate to them.
 
-<p align="center">
-  <a href="https://www.digitalocean.com/?refcode=df14bcb7c016&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"><img src="https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg" alt="DigitalOcean Referral Badge" /></a>
-</p>
-<p align="center">
-<em>Homepage builds are kindly powered by DigitalOcean.</em>
-</p>
+## Configuration Options
 
-# Features
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `url` | string | *required* | URL to your Jotty instance |
+| `key` | string | *required* | Your Jotty API key (starts with `ck_`) |
+| `show` | string | `"both"` | Display mode: `"both"`, `"lists"`, or `"notes"` |
+| `showSummary` | boolean | `false` | Show summary stats instead of list view |
+| `listTitle` | string | - | Lock to a specific list by title |
+| `noteTitle` | string | - | Lock to a specific note by title |
+| `category` | string | - | Filter both lists and notes by category |
+| `listCategory` | string | - | Filter only lists by category |
+| `noteCategory` | string | - | Filter only notes by category |
+| `defaultCategory` | string | `"all"` | Pre-select category in dropdown |
+| `listType` | string | - | Filter lists by type: `"simple"` or `"task"` |
+| `taskStatus` | string | `"all"` | Default task status filter: `"all"`, `"todo"`, `"in_progress"`, `"paused"`, `"completed"` |
+| `hideCompleted` | boolean | `false` | Hide completed items |
+| `maxItems` | number | - | Maximum items to display in a list |
+| `maxLists` | number | - | Maximum lists/notes in dropdown |
+| `sortBy` | string | - | Sort by: `"title"`, `"updated"`, or `"created"` |
+| `sortOrder` | string | `"asc"` | Sort order: `"asc"` or `"desc"` |
+| `compact` | boolean | `false` | Use compact UI with less padding |
+| `showTimestamps` | boolean | `false` | Show last updated dates |
 
-With features like quick search, bookmarks, weather support, a wide range of integrations and widgets, an elegant and modern design, and a focus on performance, Homepage is your ideal start to the day and a handy companion throughout it.
+## Examples
 
-- **Fast** - The site is statically generated at build time for instant load times.
-- **Secure** - All API requests to backend services are proxied, keeping your API keys hidden. Constantly reviewed for security by the community.
-- **For Everyone** - Images built for AMD64, ARM64.
-- **Full i18n** - Support for over 40 languages.
-- **Service & Web Bookmarks** - Add custom links to the homepage.
-- **Docker Integration** - Container status and stats. Automatic service discovery via labels.
-- **Service Integration** - Over 100 service integrations, including popular starr and self-hosted apps.
-- **Information & Utility Widgets** - Weather, time, date, search, and more.
-- **And much more...**
-
-## Docker Integration
-
-Homepage has built-in support for Docker, and can automatically discover and add services to the homepage based on labels. See the [Docker Service Discovery](https://gethomepage.dev/configs/docker/#automatic-service-discovery) page for more information.
-
-## Service Widgets
-
-Homepage also has support for hundreds of 3rd-party services, including all popular \*arr apps, and most popular self-hosted apps. Some examples include: Radarr, Sonarr, Lidarr, Bazarr, Ombi, Tautulli, Plex, Jellyfin, Emby, Transmission, qBittorrent, Deluge, Jackett, NZBGet, SABnzbd, etc. As well as service integrations, Homepage also has a number of information providers, sourcing information from a variety of external 3rd-party APIs. See the [Service](https://gethomepage.dev/widgets/) page for more information.
-
-## Information Widgets
-
-Homepage has built-in support for a number of information providers, including weather, time, date, search, glances and more. System and status information presented at the top of the page. See the [Information Providers](https://gethomepage.dev/widgets/) page for more information.
-
-## Customization
-
-Homepage is highly customizable, with support for custom themes, custom CSS & JS, custom layouts, formatting, localization and more. See the [Settings](https://gethomepage.dev/configs/settings/) page for more information.
-
-# Getting Started
-
-For configuration options, examples and more, [please check out the homepage documentation](http://gethomepage.dev).
-
-## Security Notice 🔒
-
-Please note that when using features such as widgets, Homepage can access personal information (for example from your home automation system) and Homepage currently does not (and is not planned to) include any authentication layer itself. Thus, we recommend homepage be deployed behind a reverse proxy including authentication, SSL etc, and / or behind a VPN.
-
-## With Docker
-
-Using docker compose:
+### Basic Display Modes
 
 ```yaml
-services:
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    environment:
-      HOMEPAGE_ALLOWED_HOSTS: gethomepage.dev # required, may need port. See gethomepage.dev/installation/#homepage_allowed_hosts
-      PUID: 1000 # optional, your user id
-      PGID: 1000 # optional, your group id
-    ports:
-      - 3000:3000
-    volumes:
-      - /path/to/config:/app/config # Make sure your local config directory exists
-      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
-    restart: unless-stopped
+# Default - Both lists and notes with all dropdowns
+- Jotty All:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+
+# Lists Only
+- Jotty Lists:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+
+# Notes Only
+- Jotty Notes:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: notes
+
+# Summary Stats View
+- Jotty Stats:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      showSummary: true
 ```
 
-or docker run:
+### Locked to Specific Item
 
-```bash
-docker run --name homepage \
-  -e HOMEPAGE_ALLOWED_HOSTS=gethomepage.dev \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -p 3000:3000 \
-  -v /path/to/config:/app/config \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  --restart unless-stopped \
-  ghcr.io/gethomepage/homepage:latest
+```yaml
+# Locked to Specific List
+- Shopping List:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      listTitle: "Shopping"
+
+# Locked to Specific Note
+- Important Note:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      noteTitle: "My Important Note"
 ```
 
-## From Source
+### Category Filtering
 
-First, clone the repository:
+```yaml
+# Single Category Filter
+- Work Items:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      category: "Work"
 
-```bash
-git clone https://github.com/gethomepage/homepage.git
+# Separate Categories for Lists vs Notes
+- Work & Personal:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      listCategory: "Work"
+      noteCategory: "Personal"
+
+# Default Category Pre-selected
+- Default Personal:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      defaultCategory: "Personal"
 ```
 
-Then install dependencies and build the production bundle:
+### List Type Filtering
 
-```bash
-pnpm install
-pnpm build
+```yaml
+# Simple Checklists Only
+- Simple Lists:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "simple"
+
+# Task Checklists Only (shows status dropdown)
+- Task Lists:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "task"
 ```
 
-If this is your first time starting, copy the `src/skeleton` directory to `config/` to populate initial example config files.
+### Task Status Filtering
 
-Finally, run the server in production mode:
+```yaml
+# Default to To Do Tasks
+- To Do:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "task"
+      taskStatus: "todo"
 
-```bash
-pnpm start
+# Default to In Progress
+- In Progress:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "task"
+      taskStatus: "in_progress"
+
+# Default to Paused
+- Paused:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "task"
+      taskStatus: "paused"
+
+# Default to Completed
+- Completed:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: "task"
+      taskStatus: "completed"
 ```
 
-# Configuration
+### Item Visibility
 
-Please refer to the [homepage documentation website](https://gethomepage.dev/) for more information. Everything you need to know about configuring Homepage is there. Please read everything carefully before asking for help, as most questions are answered there or are simple YAML configuration issues.
+```yaml
+# Hide Completed Items
+- Pending Only:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      hideCompleted: true
 
-# Development
+# Limit Items Displayed
+- Top 5 Items:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      listTitle: "General ToDo"
+      maxItems: 5
 
-Install NPM packages, this project uses [pnpm](https://pnpm.io/) (and so should you!):
-
-```bash
-pnpm install
+# Limit Lists in Dropdown
+- Top 10 Lists:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      maxLists: 10
 ```
 
-Start the development server:
+### Sorting
 
-```bash
-pnpm dev
+```yaml
+# Sort by Title (A-Z)
+- Alphabetical:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      sortBy: "title"
+      sortOrder: "asc"
+
+# Sort by Last Updated (Newest First)
+- Recently Updated:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      sortBy: "updated"
+      sortOrder: "desc"
+
+# Sort by Created Date (Newest First)
+- Recently Created:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      sortBy: "created"
+      sortOrder: "desc"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to start.
+### UI Options
 
-This is a [Next.js](https://nextjs.org/) application, see their documentation for more information.
+```yaml
+# Compact Mode
+- Compact View:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      compact: true
 
-# Documentation
-
-The homepage documentation is available at [https://gethomepage.dev/](https://gethomepage.dev/).
-
-Homepage uses Material for MkDocs for documentation. To run the documentation locally, first install the dependencies:
-
-```bash
-pip install -r requirements.txt
+# Show Timestamps
+- With Dates:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      showTimestamps: true
 ```
 
-Then run the development server:
+### Combined Examples
 
-```bash
-mkdocs serve # or build, to build the static site
+```yaml
+# Work Dashboard
+- Work Dashboard:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listCategory: "Work"
+      listType: "task"
+      taskStatus: "in_progress"
+      hideCompleted: true
+      sortBy: "updated"
+      sortOrder: "desc"
+      compact: true
+      showTimestamps: true
+      maxItems: 10
+      maxLists: 5
+
+# Quick Notes
+- Quick Notes:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: notes
+      sortBy: "updated"
+      sortOrder: "desc"
+      compact: true
+      showTimestamps: true
+      maxLists: 5
+
+# Locked Task List with Status Filter
+- Project Tasks:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      listTitle: "Project Alpha"
+      taskStatus: "in_progress"
+      hideCompleted: true
+      maxItems: 10
+      showTimestamps: true
 ```
 
-# Support & Suggestions
+## Credits to the original gangsters again
 
-If you have any questions, suggestions, or general issues, please start a discussion on the [Discussions](https://github.com/gethomepage/homepage/discussions) page.
-
-## Troubleshooting
-
-In addition to the docs, the [troubleshooting guide](https://gethomepage.dev/troubleshooting/) can help reveal many basic config or network issues. If you're having a problem, it's a good place to start.
-
-## Contributing & Contributors
-
-Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
-
-Thanks to the over 200 contributors who have helped make this project what it is today!
-
-Especially huge thanks to [@shamoon](https://github.com/shamoon), who has been the backbone of this community from the very start.
+- [Jotty](https://github.com/fccview/jotty) - The checklist and notes application
+- [Homepage](https://gethomepage.dev/) - The dashboard platform
