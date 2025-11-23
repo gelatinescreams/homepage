@@ -39,8 +39,7 @@ Shoutout to both these devs & communities, please go donate to them.
 | `sortOrder` | string | `"asc"` | Sort order: `"asc"` or `"desc"` |
 | `compact` | boolean | `false` | Use compact UI with less padding |
 | `showTimestamps` | boolean | `false` | Show last updated dates |
-| `pinnedOnly` | boolean | `false` | Show only pinned items (username auto-detected) |
-| `username` | string | - | Override auto-detected username for pinned items |
+| `pinnedOnly` | boolean | `false` | Show only pinned items |
 | `showTimeTracked` | boolean | `false` | Show time duration instead of entry count (task lists only) |
 
 ## Examples
@@ -280,7 +279,7 @@ Shoutout to both these devs & communities, please go donate to them.
 ### Pinned Items
 
 ```yaml
-# Pinned Lists Only (username auto-detected)
+# Pinned Lists Only
 - Pinned Lists:
     widget:
       type: jotty
@@ -317,15 +316,6 @@ Shoutout to both these devs & communities, please go donate to them.
       show: lists
       listType: task
       taskStatus: in_progress
-
-# Manual Username Override (optional)
-- Specific User Pins:
-    widget:
-      type: jotty
-      url: https://your-jotty.com
-      key: ck_xxxxx
-      pinnedOnly: true
-      username: specific_username
 ```
 
 ### Time Tracking

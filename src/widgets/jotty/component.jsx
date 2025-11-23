@@ -273,9 +273,31 @@ export default function Component({ service }) {
                     {item.status && <span className="ml-2 opacity-50 text-xs">({item.status.replace("_", " ")})</span>}
                     {item.time && Array.isArray(item.time) && item.time.length > 0 && (
                       showTimeTracked ? (
-                        <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}>⏱ {formatDuration(calculateTotalTime(item.time))}</span>
+                        <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}><svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="10"
+    height="10"
+    className="opacity-50 inline-block"
+  >
+    <path
+      fill="currentColor"
+      d="M13 3h-2v2h2V3zm5.293 3.293l-1.414 1.414A8 8 0 1112 4V2a10 10 0 106.293 4.293zM11 8h2v5h-2V8z"
+    />
+  </svg> {formatDuration(calculateTotalTime(item.time))}</span>
                       ) : (
-                        <span className="ml-2 opacity-50 text-xs" title="Time entries">⏱ {item.time.length}</span>
+                        <span className="ml-2 opacity-50 text-xs" title="Time entries"><svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="10"
+    height="10"
+    className="opacity-50 inline-block"
+  >
+    <path
+      fill="currentColor"
+      d="M13 3h-2v2h2V3zm5.293 3.293l-1.414 1.414A8 8 0 1112 4V2a10 10 0 106.293 4.293zM11 8h2v5h-2V8z"
+    />
+  </svg> {item.time.length}</span>
                       )
                     )}
                   </div>
@@ -476,9 +498,31 @@ export default function Component({ service }) {
                         {item.status && <span className="ml-2 opacity-50 text-xs">({item.status.replace("_", " ")})</span>}
                         {item.time && Array.isArray(item.time) && item.time.length > 0 && (
                           showTimeTracked ? (
-                            <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}>⏱ {formatDuration(calculateTotalTime(item.time))}</span>
+                            <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}><svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="10"
+    height="10"
+    className="opacity-50 inline-block"
+  >
+    <path
+      fill="currentColor"
+      d="M13 3h-2v2h2V3zm5.293 3.293l-1.414 1.414A8 8 0 1112 4V2a10 10 0 106.293 4.293zM11 8h2v5h-2V8z"
+    />
+  </svg> {formatDuration(calculateTotalTime(item.time))}</span>
                           ) : (
-                            <span className="ml-2 opacity-50 text-xs" title="Time entries">⏱ {item.time.length}</span>
+                            <span className="ml-2 opacity-50 text-xs" title="Time entries"><svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="10"
+    height="10"
+    className="opacity-50 inline-block"
+  >
+    <path
+      fill="currentColor"
+      d="M13 3h-2v2h2V3zm5.293 3.293l-1.414 1.414A8 8 0 1112 4V2a10 10 0 106.293 4.293zM11 8h2v5h-2V8z"
+    />
+  </svg> {item.time.length}</span>
                           )
                         )}
                       </div>
