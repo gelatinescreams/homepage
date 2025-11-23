@@ -8,9 +8,13 @@ Shoutout to both these devs & communities, please go donate to them.
 
 ![Homepage Widget Screenshot](assets/screenshot.png)
 
-## Planned Future Updates
-- Time duration(s)
+## Recent Updates
+- Time duration display for task lists
 - Pinned items filter
+
+## What's Next?
+- Give project to Jotty creator
+- Move to Jotty Home Assistant HACS integration
 
 ## Configuration Options
 
@@ -35,6 +39,9 @@ Shoutout to both these devs & communities, please go donate to them.
 | `sortOrder` | string | `"asc"` | Sort order: `"asc"` or `"desc"` |
 | `compact` | boolean | `false` | Use compact UI with less padding |
 | `showTimestamps` | boolean | `false` | Show last updated dates |
+| `pinnedOnly` | boolean | `false` | Show only pinned items (username auto-detected) |
+| `username` | string | - | Override auto-detected username for pinned items |
+| `showTimeTracked` | boolean | `false` | Show time duration instead of entry count (task lists only) |
 
 ## Examples
 
@@ -270,6 +277,102 @@ Shoutout to both these devs & communities, please go donate to them.
       showTimestamps: true
 ```
 
+### Pinned Items
+
+```yaml
+# Pinned Lists Only (username auto-detected)
+- Pinned Lists:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: lists
+
+# Pinned Notes Only
+- Pinned Notes:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: notes
+
+# Both Pinned Lists and Notes
+- My Pinned Items:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: both
+
+# Pinned Task Lists
+- Pinned Tasks:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: lists
+      listType: task
+      taskStatus: in_progress
+
+# Manual Username Override (optional)
+- Specific User Pins:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      username: specific_username
+```
+
+### Time Tracking
+
+```yaml
+# Show Time Duration (instead of entry count)
+- Time Tracked:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: task
+      showTimeTracked: true
+
+# Time Tracking for Specific List
+- Project Time:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      listTitle: "Project Alpha"
+      showTimeTracked: true
+
+# In Progress Tasks with Time
+- Active Time:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      show: lists
+      listType: task
+      taskStatus: in_progress
+      showTimeTracked: true
+
+# Pinned Tasks with Time Tracking
+- Pinned Time:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: lists
+      listType: task
+      showTimeTracked: true
+```
+
 ### Combined Examples
 
 ```yaml
@@ -314,6 +417,23 @@ Shoutout to both these devs & communities, please go donate to them.
       taskStatus: "in_progress"
       hideCompleted: true
       maxItems: 10
+      showTimestamps: true
+
+# Pinned Tasks with Time Tracking
+- My Pinned Tasks:
+    widget:
+      type: jotty
+      url: https://your-jotty.com
+      key: ck_xxxxx
+      pinnedOnly: true
+      show: lists
+      listType: task
+      showTimeTracked: true
+      taskStatus: in_progress
+      hideCompleted: true
+      sortBy: updated
+      sortOrder: desc
+      compact: true
       showTimestamps: true
 ```
 

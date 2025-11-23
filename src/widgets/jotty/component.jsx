@@ -24,6 +24,26 @@ function formatDate(dateStr) {
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
+function calculateTotalTime(timeArray) {
+  if (!timeArray || !Array.isArray(timeArray) || timeArray.length === 0) return 0;
+  return timeArray.reduce((total, entry) => total + (entry.duration || 0), 0);
+}
+
+function formatDuration(seconds) {
+  if (!seconds || seconds === 0) return "0s";
+  
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  
+  const parts = [];
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (secs > 0 && hours === 0) parts.push(`${secs}s`);
+  
+  return parts.join(" ") || "0s";
+}
+
 export default function Component({ service }) {
   const { widget } = service;
   
@@ -43,6 +63,9 @@ export default function Component({ service }) {
   const compact = widget.compact || false;
   const showTimestamps = widget.showTimestamps || false;
   const defaultTaskStatus = widget.taskStatus || "all";
+  const pinnedOnly = widget.pinnedOnly || false;
+  const showTimeTracked = widget.showTimeTracked || false;
+  let username = widget.username || null;
   
   let initialMode = "checklists";
   if (lockedNote) initialMode = "notes";
@@ -60,6 +83,13 @@ export default function Component({ service }) {
   const { data: checklistsData, error: checklistsError } = useWidgetAPI(widget, "checklists");
   const { data: notesData, error: notesError } = useWidgetAPI(widget, "notes");
   const { data: summaryData, error: summaryError } = useWidgetAPI(widget, "summary");
+  
+  if (pinnedOnly && !username && summaryData?.summary?.username) {
+    username = summaryData.summary.username;
+  }
+  
+  const userEndpoint = username ? `user/${username}` : "summary";
+  const { data: userData, error: userError } = useWidgetAPI(widget, userEndpoint);
   
   if (showSummary) {
     if (summaryError) {
@@ -86,13 +116,22 @@ export default function Component({ service }) {
   
   const checklistsLoaded = checklistsData && checklistsData.checklists;
   const notesLoaded = notesData && notesData.notes;
+  const userLoaded = !pinnedOnly || (userData && userData.user);
   
-  const isLoading = mode === "checklists" ? !checklistsLoaded : !notesLoaded;
+  const isLoading = (mode === "checklists" ? !checklistsLoaded : !notesLoaded) || (pinnedOnly && !userLoaded);
   
   if (isLoading) {
     return (
       <Container service={service}>
         <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>Loading...</div>
+      </Container>
+    );
+  }
+  
+  if (pinnedOnly && userError) {
+    return (
+      <Container service={service}>
+        <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>Error loading pinned items. Check username.</div>
       </Container>
     );
   }
@@ -130,6 +169,21 @@ export default function Component({ service }) {
     return items.filter(item => item.status === status);
   };
   
+  const filterByPinned = (items, type) => {
+    if (!pinnedOnly || !userData?.user) return items;
+    
+    const pinnedPaths = type === "checklists" 
+      ? (userData.user.pinnedLists || [])
+      : (userData.user.pinnedNotes || []);
+    
+    if (pinnedPaths.length === 0) return items;
+    
+    return items.filter(item => {
+      const itemPath = `${item.category || "Uncategorized"}/${item.title}`;
+      return pinnedPaths.includes(itemPath);
+    });
+  };
+
 
   const countByStatus = (items) => {
     const counts = { all: items.length, todo: 0, in_progress: 0, paused: 0, completed: 0 };
@@ -218,7 +272,11 @@ export default function Component({ service }) {
                     <span className={item.completed ? "line-through" : ""}>{item.text}</span>
                     {item.status && <span className="ml-2 opacity-50 text-xs">({item.status.replace("_", " ")})</span>}
                     {item.time && Array.isArray(item.time) && item.time.length > 0 && (
-                      <span className="ml-2 opacity-50 text-xs">? {item.time.length}</span>
+                      showTimeTracked ? (
+                        <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}>⏱ {formatDuration(calculateTotalTime(item.time))}</span>
+                      ) : (
+                        <span className="ml-2 opacity-50 text-xs" title="Time entries">⏱ {item.time.length}</span>
+                      )
                     )}
                   </div>
                 </div>
@@ -275,6 +333,10 @@ export default function Component({ service }) {
   
   if (mode === "checklists" && listTypeFilter) {
     allItems = filterByType(allItems);
+  }
+  
+  if (pinnedOnly) {
+    allItems = filterByPinned(allItems, mode);
   }
   
   allItems = sortItems(allItems);
@@ -359,7 +421,7 @@ export default function Component({ service }) {
         
         {allItems.length === 0 ? (
           <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>
-            No {mode === "checklists" ? "lists" : "notes"} found
+            No {pinnedOnly ? "pinned " : ""}{mode === "checklists" ? "lists" : "notes"} found
             {currentCategoryFilter ? ` in "${currentCategoryFilter}"` : ""}
             {showToggle && otherModeHasData && `. Try switching to ${mode === "checklists" ? "Notes" : "Lists"}.`}
           </div>
@@ -413,7 +475,11 @@ export default function Component({ service }) {
                         <span className={item.completed ? "line-through" : ""}>{item.text}</span>
                         {item.status && <span className="ml-2 opacity-50 text-xs">({item.status.replace("_", " ")})</span>}
                         {item.time && Array.isArray(item.time) && item.time.length > 0 && (
-                          <span className="ml-2 opacity-50 text-xs" title="Time entries">? {item.time.length}</span>
+                          showTimeTracked ? (
+                            <span className="ml-2 opacity-50 text-xs" title={`${item.time.length} time entries`}>⏱ {formatDuration(calculateTotalTime(item.time))}</span>
+                          ) : (
+                            <span className="ml-2 opacity-50 text-xs" title="Time entries">⏱ {item.time.length}</span>
+                          )
                         )}
                       </div>
                     </div>

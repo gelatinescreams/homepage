@@ -4,7 +4,7 @@ const widget = {
   api: "{url}/api/{endpoint}",
   proxyHandler: credentialedProxyHandler,
   
-  allowedEndpoints: /^(checklists|notes|summary)/,
+  allowedEndpoints: /^(checklists|notes|summary|user)/,
 };
 
 export default widget;

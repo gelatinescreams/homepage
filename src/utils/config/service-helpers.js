@@ -442,7 +442,10 @@ export function cleanServiceGroups(groups) {
           defaultCategory: jottyDefaultCategory,
           compact: jottyCompact,
           showTimestamps: jottyShowTimestamps,
-          taskStatus: jottyTaskStatus,        
+          taskStatus: jottyTaskStatus,
+          pinnedOnly: jottyPinnedOnly,
+          username: jottyUsername,
+          showTimeTracked: jottyShowTimeTracked,    
 
         } = widgetData;
 
@@ -624,7 +627,10 @@ export function cleanServiceGroups(groups) {
           if (jottyCompact !== undefined) widget.compact = !!JSON.parse(jottyCompact);
           if (jottyShowTimestamps !== undefined) widget.showTimestamps = !!JSON.parse(jottyShowTimestamps);
           if (jottyTaskStatus) widget.taskStatus = jottyTaskStatus;
-        }     
+          if (jottyPinnedOnly !== undefined) widget.pinnedOnly = !!JSON.parse(jottyPinnedOnly);
+          if (jottyUsername) widget.username = jottyUsername;
+          if (jottyShowTimeTracked !== undefined) widget.showTimeTracked = !!JSON.parse(jottyShowTimeTracked);
+        }    
 
         if (type === "openwrt") {
           if (interfaceName) widget.interfaceName = interfaceName;
