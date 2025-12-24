@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import { useState } from "react";
 import Container from "components/services/widget/container";
 import Block from "components/services/widget/block";
@@ -210,7 +211,7 @@ export default function Component({ service }) {
     if (!found) {
       return (
         <Container service={service}>
-          <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>List "{lockedList}" not found.</div>
+          <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>List &quot;{lockedList}&quot; not found.</div>
         </Container>
       );
     }
@@ -318,7 +319,7 @@ export default function Component({ service }) {
     if (!found) {
       return (
         <Container service={service}>
-          <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>Note "{lockedNote}" not found.</div>
+          <div className={`${compact ? "p-1" : "p-2"} text-xs opacity-70`}>Note &quot;{lockedNote}&quot; not found.</div>
         </Container>
       );
     }
